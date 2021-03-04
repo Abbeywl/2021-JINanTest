@@ -14,7 +14,9 @@ import request from '@/utils/request'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import api from './utils/request'
 
+Vue.prototype.$api = api
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 

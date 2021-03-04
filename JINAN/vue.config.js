@@ -36,15 +36,16 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy: {
-      // detail: https://cli.vuejs.org/config/#devserver-proxy
-      '/admin': {
-        target: `http://localhost:8886/`,
-        changeOrigin: true,
-        pathRewrite: {
-        }
-      }
-    }
+    proxy:"http://47.103.110.240:6215/"
+    // proxy: {
+    //   // detail: https://cli.vuejs.org/config/#devserver-proxy
+    //   '/admin': {
+    //     target: `http://localhost:8886/`,
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //     }
+    //   }
+    // }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

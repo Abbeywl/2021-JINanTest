@@ -45,7 +45,9 @@
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <svg-icon
+            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+          />
         </span>
       </el-form-item>
 
@@ -53,11 +55,12 @@
         id="login_btn"
         :loading="loading"
         type="primary"
-        style="width:100%;margin-bottom:30px;"
+        style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-      >登录</el-button>
+        >登录</el-button
+      >
     </el-form>
-    <div class="info" style="bottom: 40px;">Beta: 1.0</div>
+    <div class="info" style="bottom: 40px">Beta: 1.0</div>
     <div class="info">Technical Support: XXX</div>
   </div>
 </template>
@@ -84,28 +87,28 @@ export default {
     return {
       loginForm: {
         username: "admin",
-        password: "111111"
+        password: "111111",
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername }
+          { required: true, trigger: "blur", validator: validateUsername },
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword }
-        ]
+          { required: true, trigger: "blur", validator: validatePassword },
+        ],
       },
       loading: false,
       passwordType: "password",
-      redirect: undefined
+      redirect: undefined,
     };
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     showPwd() {
@@ -122,7 +125,7 @@ export default {
       let that = this;
       this.loading = true;
       //数据格式验证
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
           localStorage.setItem("hasLogin", true);
           this.$router.push({ path: "/" });
@@ -136,25 +139,25 @@ export default {
         url: "login",
         data: {
           account: that.loginForm.username,
-          psw: md5(that.loginForm.password + "*/-sz") //对密码进行加盐md5处理
+          psw: md5(that.loginForm.password + "*/-sz"), //对密码进行加盐md5处理
         },
-        method: "POST"
+        method: "POST",
       }).then(
-        res => {
+        (res) => {
           console.log("res :", res);
           localStorage.setItem("hasLogin", true);
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
           this.$router.push({ path: "/" });
         },
-        err => {
+        (err) => {
           console.log("err :", err);
           this.passwordError = true;
           this.loading = false;
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
