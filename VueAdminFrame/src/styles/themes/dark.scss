@@ -1,0 +1,198 @@
+@charset "utf-8";
+
+.vue-admin-beautiful-theme-dark::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  content: '';
+  background: #333;
+  opacity: 0.5;
+}
+
+.vue-admin-beautiful-theme-dark {
+  $base-menu-background: initial;
+  $base-menu-background-active: #999a9b;
+  $base-tab-background-active: #999a9b;
+  $base-color-blue: #1890ff;
+  $base-panel-background: #444;
+  $base-color-black: #000;
+  $base-color-two: #222;
+  color: #fff !important;
+  background: url('~@/assets/styles_theme_images/page-cover.jpg') no-repeat;
+  background-size: 100% 100%;
+
+  *:not(a):not([class*='svg']):not(.el-drawer__wrapper):not(.el-drawer__container) {
+    color: rgba(255, 255, 255, 0.65) !important;
+    border-color: #999 !important;
+    box-shadow: none !important;
+  }
+
+  .is-active:not(li) {
+    *:not(a):not([class*='svg']) {
+      color: #fff !important;
+      background-color: $base-menu-background-active !important;
+      border-color: #999 !important;
+    }
+  }
+
+  .svg-external-icon {
+    color: #fff !important;
+  }
+
+  .el-scrollbar__bar {
+    display: none;
+  }
+
+  //公共内容背景色
+  @mixin container {
+    background: $base-menu-background !important;
+  }
+
+  //公共选中active样式
+  @mixin active {
+    &:hover {
+      background-color: $base-menu-background-active !important;
+    }
+
+    &.is-active {
+      background-color: $base-menu-background-active !important;
+    }
+  }
+
+  //top logo
+  .logo-container-horizontal {
+    @include container;
+  }
+
+  //side logo
+  .logo-container-vertical {
+    @include container;
+  }
+
+  //多级菜单按钮
+  .el-menu {
+    @include container;
+
+    .el-submenu__title {
+      @include container;
+      border-bottom: 0;
+    }
+
+    .el-menu-item {
+      @include container;
+      border-bottom: 0;
+    }
+
+    //二级菜单面板
+    .el-menu--popup {
+      background: $base-panel-background !important;
+    }
+  }
+
+  .side-bar-container {
+    @include container;
+
+    .el-menu-item {
+      @include active;
+    }
+  }
+
+  //橫向菜单样式
+  .top-bar-container {
+    @include container;
+
+    .vab-main {
+      @include container;
+
+      .el-menu {
+        &--horizontal {
+          .el-submenu,
+          .el-menu-item {
+            &.is-active {
+              background-color: $base-menu-background-active !important;
+            }
+          }
+
+          .el-menu--popup {
+            .el-menu-item {
+              &:hover {
+                background-color: $base-menu-background-active !important;
+              }
+            }
+          }
+
+          > .el-menu-item {
+            &.is-active {
+              border-bottom: 3px solid $base-menu-background-active !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  //tab頁面按鈕
+  .tabs-bar-container {
+    background: $base-menu-background;
+    border-top: 0;
+    .tabs-content {
+      .el-tabs__header {
+        .el-tabs__item {
+          background: $base-color-two;
+          border: 0;
+          &.is-active {
+            background: $base-tab-background-active;
+          }
+        }
+      }
+    }
+  }
+
+  .tag-view-show {
+    @include container;
+  }
+
+  //right row content
+  .vab-main {
+    @include container;
+    .app-main-container {
+      @include container;
+      > [class*='-container'] {
+        background: $base-menu-background;
+      }
+    }
+  }
+
+  //主题settings入口
+  .theme-bar-setting,
+  .el-message-box,
+  .el-notification,
+  .rtl {
+    background: $base-panel-background;
+    border: 0;
+  }
+
+  .el-radio-button__inner,
+  .el-button {
+    background: $base-menu-background;
+  }
+  .el-button--primary {
+    background-color: $base-color-blue;
+  }
+
+  //下拉面板
+  .el-dropdown-menu {
+    background: $base-panel-background;
+    border: 0;
+    .el-dropdown-menu__item {
+      &:hover {
+        background: $base-menu-background-active;
+      }
+      &--divided::before {
+        background: $base-panel-background;
+      }
+    }
+  }
+}

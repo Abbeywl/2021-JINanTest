@@ -1,0 +1,67 @@
+@import 'vxe-table/styles/variable.scss';
+
+/*modal*/
+$vxe-modal-header-background-color: #0f0f0f;
+.vxe-modal--box {
+  border: 0 !important;
+  .vxe-modal--header {
+    color: #fff;
+    @mixin icon_qs {
+      width: 0.9em;
+      height: 0.9em;
+      background-color: #f59c1a;
+    }
+    @mixin icon_qsbef {
+      position: absolute;
+      top: 0.1em;
+      left: 0.1em;
+      font-size: 0.7em;
+    }
+    .trigger--btn {
+      border-radius: 100%;
+      &::before {
+        left: 0;
+        font-size: 1.1em;
+        line-height: 1.1em;
+      }
+      &.vxe-icon--close {
+        background-color: red;
+      }
+      &.iconquanping {
+        @include icon_qs;
+      }
+      &.iconquanping::before {
+        @include icon_qsbef;
+      }
+      &.iconsuofang {
+        @include icon_qs;
+      }
+      &.iconsuofang::before {
+        @include icon_qsbef;
+      }
+    }
+  }
+  .vxe-modal--body {
+    padding: 0 !important;
+    .vxe-modal--content {
+      padding: 1em;
+      &::-webkit-scrollbar {
+        width: 10px !important;
+        height: 10px !important;
+      }
+    }
+  }
+}
+
+//form
+.vxe-form {
+  .vxe-form--item {
+    &.is--title:not(.is--required) {
+      .vxe-form--item-title {
+        padding-left: 10px;
+      }
+    }
+  }
+}
+
+@import 'vxe-table/styles/modules.scss';
