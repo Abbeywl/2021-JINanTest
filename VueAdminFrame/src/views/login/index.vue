@@ -219,6 +219,7 @@
       handleLogin() {
         this.$refs.form.validate((valid) => {
           if (valid) {
+            debugger
             var newdata = this.form
             this.$delete(newdata, 'usertype')
             this.loading = true

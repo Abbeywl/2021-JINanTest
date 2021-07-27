@@ -78,6 +78,8 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-pagination background layout="prev, pager, next" :total="10">
+        </el-pagination>
       </el-tab-pane>
       <el-tab-pane label="已完成" name="second">已完成</el-tab-pane>
     </el-tabs>
@@ -134,6 +136,7 @@
 </template>
 
 <script>
+import { fetchPost, fetchGet } from "@/utils/request";
 export default {
   data() {
     return {
@@ -158,7 +161,7 @@ export default {
         },
         {
           id: "2",
-          date: "2016-05-02",
+          st: "2016-05-02",
           name: "王小虎",
           address: "上海市普陀区金沙江路 1518 弄",
         },
@@ -208,6 +211,9 @@ export default {
       fileList: [], //附件
     };
   },
+  mounted() {
+    this.getData();
+  },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
@@ -234,6 +240,16 @@ export default {
     },
     handlePreview(file) {
       console.log(file);
+    },
+    getData() {
+      let that = this;
+      fetchGet("/api/ActivityManage/GetActivitiesPages", {})
+        .then((res) => {
+          console.log(res);
+        })
+        .cath((error) => {
+          console.log(error);
+        });
     },
   },
 };

@@ -3,18 +3,13 @@
         <div class="ms-login">
             <div class="ms-title">后台管理系统</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
-                <el-form-item prop="username">
-                    <el-input v-model="param.username" placeholder="username">
+                <el-form-item prop="UserName">
+                    <el-input v-model="param.UserName" placeholder="UserName">
                         <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
                     </el-input>
                 </el-form-item>
-                <el-form-item prop="password">
-                    <el-input
-                        type="password"
-                        placeholder="password"
-                        v-model="param.password"
-                        @keyup.enter.native="submitForm()"
-                    >
+                <el-form-item prop="Password">
+                    <el-input type="Password" placeholder="Password" v-model="param.Password" @keyup.enter.native="submitForm()">
                         <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
                     </el-input>
                 </el-form-item>
@@ -28,34 +23,53 @@
 </template>
 
 <script>
+import { testApi, Login } from '../../api/index';
 export default {
-    data: function() {
+    data: function () {
         return {
             param: {
-                username: 'admin',
-                password: '123123',
+                UserName: '18393911684',
+                Password: 'airport123',
+                UserType: 'Staff'
             },
             rules: {
-                username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-                password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-            },
+                UserName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+                Password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+            }
         };
     },
+    mounted() {
+        this.getDtata();
+    },
     methods: {
+        getDtata() {
+            testApi(this.query).then((res) => {
+                console.log(res);
+            });
+        },
+        LonginFun() {
+            Login(this.param).then((res) => {
+                console.log(res);
+            });
+            // Login().then(res)
+        },
         submitForm() {
-            this.$refs.login.validate(valid => {
+            this.$refs.login.validate((valid) => {
                 if (valid) {
-                    this.$message.success('登录成功');
-                    localStorage.setItem('ms_username', this.param.username);
-                    this.$router.push('/');
+                    Login(this.param).then((res) => {
+                        console.log(res);
+                        this.$message.success('登录成功');
+                        localStorage.setItem('ms_UserName', this.param.UserName);
+                        this.$router.push('/');
+                    });
                 } else {
                     this.$message.error('请输入账号和密码');
                     console.log('error submit!!');
                     return false;
                 }
             });
-        },
-    },
+        }
+    }
 };
 </script>
 

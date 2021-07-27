@@ -50,30 +50,69 @@ module.exports = [
     },
   },
   {
-    url: '/userInfo',
-    type: 'post',
+    url: '/api/abp/application-configuration',
+    type: 'get',
     response(config) {
-      const { accessToken } = config.body
-      let permissions = ['admin']
-      let username = 'admin'
+      //const { accessToken } = config.body
+      const accessToken = 'admin-accessToken'
+      let permissions = {}
+      let username = ''
       if ('admin-accessToken' === accessToken) {
-        permissions = ['admin']
+        permissions = {
+          'BIMPlatform.Attendance.Manage': true,
+          'BIMPlatform.Attendance.Leave.Default': true,
+          'BIMPlatform.Attendance.SheWolf.Manage': true,
+          'BIMPlatform.Equipment.Manage': true,
+          'BIMPlatform.Equipment.Video.Default': true,
+          'BIMPlatform.Equipment.Environment.Default': true,
+          'BIMPlatform.Equipment.Car.Default': true,
+          'BIMPlatform.Equipment.TowerCrane.Default': true,
+          'BIMPlatform.Equipment.Loadometer.Default': true,
+          'BIMPlatform.Equipment.Elevator.Default': true,
+          'BIMPlatform.Equipment.HighModulus.Default': true,
+          'BIMPlatform.Equipment.DeepExcavation.Default': true,
+          'BIMPlatform.QualityIssue.Manage': true,
+          'BIMPlatform.SafetyIssue.Manage': true,
+          'BIMPlatform.SupervisorLog.Manage': true,
+          'BIMPlatform.EfficiencyAnalysis.Manage': true,
+          'BIMPlatform.EfficiencyAnalysis.Default': true,
+          BIMPlatform: true,
+          'BIMPlatform.KnowledgeBase.Manage': true,
+          'BIMPlatform.KnowledgeBase.QA.Default': true,
+          'BIMPlatform.KnowledgeBase.Regulation.Default': true,
+          'BIMPlatform.Document.Manage': true,
+          'AbpTenantManagement.Tenants.ManageFeatures': true,
+          'AbpTenantManagement.Tenants.ManageFeatures': true,
+          'BIMPlatform.Project.Delete': true,
+          'BIMPlatform.Project.Manage': true,
+        }
         username = 'admin'
       }
       if ('editor-accessToken' === accessToken) {
-        permissions = ['editor']
+        permissions = { editor: true }
         username = 'editor'
       }
       if ('test-accessToken' === accessToken) {
-        permissions = ['admin', 'editor']
+        permissions = { admin: true, editor: true }
         username = 'test'
       }
       return {
         code: 200,
         msg: 'success',
-        data: {
-          permissions,
-          username,
+        auth: {
+          grantedPolicies: permissions,
+        },
+        currentTenant: {
+          id: null,
+          name: '',
+          isAvailable: false,
+        },
+        currentUser: {
+          userName: username,
+          id: null,
+          email: '',
+        },
+        imgSrc: {
           'avatar|1': [
             'https://i.gtimg.cn/club/item/face/img/2/15922_100.gif',
             'https://i.gtimg.cn/club/item/face/img/8/15918_100.gif',
@@ -93,7 +132,7 @@ module.exports = [
     },
   },
   {
-    url: '/abp/multi-tenancy/tenants/by-name/baidu',
+    url: '/api/abp/multi-tenancy/tenants/by-name/baidu',
     type: 'get',
     response() {
       return {

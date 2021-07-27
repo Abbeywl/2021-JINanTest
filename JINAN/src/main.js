@@ -10,17 +10,19 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-import request from '@/utils/request'
+// import request from '@/utils/request'
 
 import '@/icons' // icon
 import '@/permission' // permission control
 import api from './utils/request'
 
+import {fetchPost,fetchGet} from '@/utils/request'
 Vue.prototype.$api = api
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 
-Vue.prototype.req = request
+Vue.prototype.rfetchPosteq = fetchPost
+Vue.prototype.fetchGet = fetchGet
 
 Vue.config.productionTip = false
 

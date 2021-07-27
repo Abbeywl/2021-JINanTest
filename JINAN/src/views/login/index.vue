@@ -4,7 +4,7 @@
       ref="loginForm"
       :model="loginForm"
       :rules="loginRules"
-      class="login-form"
+      class="login-form"                 
       auto-complete="on"
       label-position="left"
     >

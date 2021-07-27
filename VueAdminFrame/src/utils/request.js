@@ -98,7 +98,6 @@ instance.interceptors.response.use(
     }
   },
   (error) => {
-    debugger
     if (loadingInstance) loadingInstance.close()
     const { response, message } = error
     if (error.response && error.response.data) {

@@ -205,6 +205,7 @@ export default {
     ];
     this.drawFigure("任务完成比", "figurePie", color, series);
     this.drawFigure("任务完成比", "emergencyPie", color, series);
+    this.getlisttest();
   },
   methods: {
     drawFigure(pieTitle, chartName, color, series) {
@@ -228,6 +229,22 @@ export default {
         color: color,
         series: series,
       });
+    },
+    getlisttest() {
+      this.req({
+        url: "/api/Project/HasProject/", // 此处写不同业务对应的url，框架会自动与baseURL拼接
+        data: {},
+        method: "GET",
+      }).then(
+        (res) => {
+          // 请求成功后的处理
+          console.log("res :", res);
+        },
+        (err) => {
+          // 请求失败后的处理
+          console.log("err :", err);
+        }
+      );
     },
   },
 };

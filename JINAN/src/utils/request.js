@@ -1,167 +1,74 @@
-import Vue from 'vue'
-
 import axios from 'axios'
-
 import qs from 'qs'
-
-import { Message, Loading } from 'element-ui'
-
-// 响应时间
-
-axios.defaults.timeout = 5 * 1000
-
-// 配置cookie
-
-// axios.defaults.withCredentials = true
-
-// 配置请求头
-
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-
-// 静态资源
-
-Vue.prototype.$static = ''
-
-// 配置接口地址
-
-axios.defaults.baseURL = ''
-
-var loadingInstance
-
-// POST传参序列化(添加请求拦截器)
-
-axios.interceptors.request.use(
-
- config => {
-
-  loadingInstance = Loading.service({
-
-   lock: true,
-
-   text: '数据加载中，请稍后...',
-
-   spinner: 'el-icon-loading',
-
-   background: 'rgba(0, 0, 0, 0.7)'
-
-  })
-
-  if (config.method === 'post') {
-
-   config.data = qs.stringify(config.data)
-
-  }
-
-  return config
-
- },
-
- err => {
-
-  loadingInstance.close()
-
-  Message.error('请求错误')
-
-  return Promise.reject(err)
-
+axios.defaults.timeout = 5000;      //响应时间
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';  //配置请求头
+axios.defaults.baseURL = 'https://result.eolinker.com/HeI3XYg0e196a92969f623577663eb325173bca74764382?uri='; //配置接口地址
+ 
+//POST传参序列化(添加请求拦截器)
+axios.interceptors.request.use((config) => {
+ //在发送请求之前做某件事
+ // config.headers.Accept="appliaction/json,text/plan";
+ if(config.method === 'post'){
+  config.data = qs.stringify(config.data);
  }
-
-)
-
-// 返回状态判断(添加响应拦截器)
-
-axios.interceptors.response.use(
-
- res => {
-
-  if (res.data.code === 200) {
-
-   loadingInstance.close()
-
-   return res
-
-  } else {
-
-   loadingInstance.close()
-
-   Message.error(res.data.msg)
-
-  }
-
- },
-
- err => {
-
-  loadingInstance.close()
-
-  Message.error('请求失败，请稍后再试')
-
-  return Promise.reject(err)
-
+ return config;
+},(error) =>{
+ console.log('错误的传参')
+ return Promise.reject(error);
+});
+// axios.interceptors.response.use((res) => {
+//  //对响应数据做些事
+//  if (!res.data) {
+//  return Promise.resolve(res);
+//  }
+//  return res;
+// }, (error) => {
+//  console.log(error);
+//  console.log('网络异常')
+//  return Promise.reject(error);
+// });
+ 
+//返回状态判断(添加响应拦截器)
+axios.interceptors.response.use((res) =>{
+ //对响应数据做些事
+ if(!res.data.success){
+  return Promise.resolve(res);
  }
-
-)
-
-// 发送请求
-
-export function post (url, params) {
-
+ return res;
+}, (error) => {
+ console.log('网络异常')
+ return Promise.reject(error);
+});
+ 
+//返回一个Promise(发送post请求)
+export function fetchPost(url,param) {
  return new Promise((resolve, reject) => {
-
-  axios
-
-   .post(url, params)
-
-   .then(
-
-    res => {
-
-     resolve(res.data)
-
-    },
-
-    err => {
-
-     reject(err.data)
-
-    }
-
-   )
-
-   .catch(err => {
-
-    reject(err.data)
-
+  axios.post(url,param)
+   .then(response => {
+    resolve(response);
+   }, err => {
+    reject(err);
    })
-
+   .catch((error) => {
+    reject(error)
+   })
  })
-
 }
-
-export function get (url, params) {
-
+// 返回一个Promise(发送get请求)
+export function fetchGet(url,param) {
  return new Promise((resolve, reject) => {
-
-  axios
-
-   .get(url, {
-
-    params: params
-
+  axios.get(url,{params:param})
+   .then(response => {
+    resolve(response)
+   }, err => {
+    reject(err)
    })
-
-   .then(res => {
-
-    resolve(res.data)
-
+   .catch((error) => {
+    reject(error)
    })
-
-   .catch(err => {
-
-    reject(err.data)
-
-   })
-
  })
-
+}
+export default {
+ fetchPost,
+ fetchGet,
 }

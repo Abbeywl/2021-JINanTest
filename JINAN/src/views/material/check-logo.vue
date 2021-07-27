@@ -1,16 +1,29 @@
 <template>
   <div class="root">
     <div class="search">
-      <el-input placeholder="请输入logo名称" v-model="keyword" clearable class="input-with-select">
-        <el-button @click="goSearch" slot="append" icon="el-icon-search"></el-button>
+      <el-input
+        placeholder="请输入logo名称"
+        v-model="keyword"
+        clearable
+        class="input-with-select"
+      >
+        <el-button
+          @click="goSearch"
+          slot="append"
+          icon="el-icon-search"
+        ></el-button>
       </el-input>
     </div>
     <el-table
       :data="tableData"
       style="width: 100%"
-      :default-sort="{prop: 'createDate', order: 'descending'}"
+      :default-sort="{ prop: 'createDate', order: 'descending' }"
     >
-      <el-table-column prop="name" label="logo名称" show-overflow-tooltip></el-table-column>
+      <el-table-column
+        prop="name"
+        label="logo名称"
+        show-overflow-tooltip
+      ></el-table-column>
       <el-table-column label="上传日期" prop="createDate" sortable>
         <!-- <template slot-scope="scope">{{ scope.row.createDate }}</template> -->
       </el-table-column>
@@ -27,13 +40,20 @@
       </el-table-column>
       <el-table-column label="操作">
         <div slot-scope="scope">
-          <el-button @click="deleteLogo(scope.row.id)" size="small" type="danger" round>删除</el-button>
           <el-button
-            @click="downloadFile(scope.row.name,scope.row.imgUrl)"
+            @click="deleteLogo(scope.row.id)"
+            size="small"
+            type="danger"
+            round
+            >删除</el-button
+          >
+          <el-button
+            @click="downloadFile(scope.row.name, scope.row.imgUrl)"
             size="small"
             type="primary"
             round
-          >下载</el-button>
+            >下载</el-button
+          >
         </div>
       </el-table-column>
     </el-table>
@@ -47,7 +67,12 @@
       @prev-click="pageChange"
       @next-click="pageChange"
     ></el-pagination>
-    <el-upload class="upload template" :headers="headers" action="http://219.228.76.43:8886/admin/upload" :on-success="uploadSuccess">
+    <el-upload
+      class="upload template"
+      :headers="headers"
+      action="http://219.228.76.43:8886/admin/upload"
+      :on-success="uploadSuccess"
+    >
       <el-button size="small" type="primary">上传logo</el-button>
       <div slot="tip" class="el-upload__tip">.png格式 尺寸200*200以内</div>
     </el-upload>
@@ -58,17 +83,17 @@
 export default {
   data() {
     return {
-      keyword:'',
+      keyword: "",
       pageSize: 6,
       total: 6, // task总数
       srcList: [],
       tableData: [],
-      headers:{
-        token:localStorage.getItem('token')
-      }
+      headers: {
+        token: localStorage.getItem("token"),
+      },
     };
   },
-  created: function() {
+  created: function () {
     this.getLogoList();
   },
   methods: {
@@ -78,12 +103,12 @@ export default {
 
     getLogoList(page = 1, limit = 6) {
       let that = this;
-      this.req({
+      ({
         url: `getLogoList?page=${page}&limit=${limit}`,
         data: {},
-        method: "GET"
-      }).then(
-        res => {
+        method: "GET",
+      }.then(
+        (res) => {
           console.log("res :", res);
           that.total = res.data.total;
           let tableData = res.data.data;
@@ -92,32 +117,32 @@ export default {
           }
           that.tableData = tableData;
         },
-        err => {
+        (err) => {
           console.log("err :", err);
         }
-      );
+      ));
     },
     deleteLogo(id) {
       let that = this;
       this.$confirm("此操作将删除该文件, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           that
             .req({
               url: "deleteLogo?id=" + id,
               data: {},
-              method: "GET"
+              method: "GET",
             })
             .then(
-              res => {
+              (res) => {
                 console.log("res :", res);
                 that.getLogoList();
                 that.$message("删除成功~");
               },
-              err => {
+              (err) => {
                 console.log("err :", err);
               }
             );
@@ -125,7 +150,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -136,7 +161,7 @@ export default {
       this.$message("上传成功~");
       this.$prompt("请输入logo名称", "提示", {
         confirmButtonText: "确定",
-        cancelButtonText: "取消"
+        cancelButtonText: "取消",
       })
         .then(({ value }) => {
           that
@@ -145,16 +170,16 @@ export default {
               data: {
                 name: value,
                 imgUrl: response.data,
-                createDate: new Date().getTime()
+                createDate: new Date().getTime(),
               },
-              method: "POST"
+              method: "POST",
             })
             .then(
-              res => {
+              (res) => {
                 console.log("res :", res);
                 that.getLogoList();
               },
-              err => {
+              (err) => {
                 console.log("err :", err);
               }
             );
@@ -162,7 +187,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "取消上传"
+            message: "取消上传",
           });
         });
     },
@@ -212,9 +237,9 @@ export default {
       this.req({
         url: "searchLogo?keyword=" + that.keyword,
         data: {},
-        method: "GET"
+        method: "GET",
       }).then(
-        res => {
+        (res) => {
           console.log("res :", res);
           if (res.data.length < 1) {
             that.$message("查询无果~");
@@ -227,12 +252,12 @@ export default {
           }
           that.tableData = res.data;
         },
-        err => {
+        (err) => {
           console.log("err :", err);
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
